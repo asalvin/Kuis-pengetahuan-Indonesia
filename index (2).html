@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kuis Pengetahuan Umum Indonesia</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #fefcea, #f1da36);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      animation: fadeIn 1s ease-in;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .quiz-container {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+      text-align: center;
+      max-width: 500px;
+      width: 90%;
+      animation: slideIn 0.8s ease-in-out;
+    }
+
+    @keyframes slideIn {
+      from { transform: translateY(-50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      background-color: #f39c12;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #e67e22;
+    }
+
+    .score {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <h2 id="question">Loading...</h2>
+    <input type="text" id="answer" placeholder="Ketik jawaban Anda di sini">
+    <button onclick="submitAnswer()">Kirim Jawaban</button>
+    <div class="score">Poin: <span id="score">0</span></div>
+    <button onclick="restartQuiz()" style="margin-top: 10px; background-color: #c0392b;">Restart</button>
+  </div>
+  <script>
+    const questions = [
+      { q: "Apa ibu kota Indonesia?", a: "jakarta" },
+      { q: "Siapa presiden pertama Indonesia?", a: "soekarno" },
+      { q: "Gunung tertinggi di Indonesia?", a: "puncak jaya" },
+      { q: "Apa lagu kebangsaan Indonesia?", a: "indonesia raya" },
+      { q: "Pulau terbesar di Indonesia?", a: "kalimantan" },
+      { q: "Apa semboyan negara Indonesia?", a: "bhinneka tunggal ika" },
+      { q: "Apa mata uang Indonesia?", a: "rupiah" },
+      { q: "Berapa banyak provinsi di Indonesia tahun 2024?", a: "38 provinsi" },
+      { q: "Indonesia berada di bawah khatulistiwa, apakah daerah Indonesia?", a: "tropis" },
+      { q: "Berapakah total pulau Indonesia di 2024?", a: "17380 pulau" }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    function loadQuestion() {
+      if (currentQuestion >= questions.length) {
+        document.getElementById("question").innerText = "Kuis selesai! Skor akhir Anda: " + score;
+        document.getElementById("answer").style.display = 'none';
+        document.querySelector('button').style.display = 'none';
+        return;
+      }
+      document.getElementById("question").innerText = questions[currentQuestion].q;
+    }
+
+    function submitAnswer() {
+      const userAnswer = document.getElementById("answer").value.toLowerCase().trim();
+      const correctAnswer = questions[currentQuestion].a.toLowerCase().trim();
+      if (userAnswer === correctAnswer) {
+        score += 5;
+      } else {
+        score -= 5;
+      }
+      currentQuestion++;
+      document.getElementById("score").innerText = score;
+      document.getElementById("answer").value = "";
+      loadQuestion();
+    }
+
+    function restartQuiz() {
+      currentQuestion = 0;
+      score = 0;
+      document.getElementById("score").innerText = score;
+      document.getElementById("answer").style.display = 'inline-block';
+      document.querySelector('button').style.display = 'inline-block';
+      loadQuestion();
+    }
+
+    loadQuestion();
+  </script>
+</body>
+</html>
